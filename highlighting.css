@@ -1,0 +1,88 @@
+.markdown-section p[kw] {
+  color: var(--code-theme-keyword);
+  display: inline;
+}
+
+.markdown-section p[comment] {
+  color: var(--code-theme-comment);
+  display: inline;
+}
+
+.markdown-section p[fun] {
+  color: var(--code-theme-function);
+  display: inline;
+}
+
+.markdown-section p[operator] {
+  color: var(--code-theme-operator);
+  display: inline;
+}
+
+.markdown-section p[punc] {
+  color: var(--code-theme-punctuation);
+  display: inline;
+}
+
+.markdown-section p[selection] {
+  color: var(--code-theme-selection);
+  display: inline;
+}
+
+.markdown-section p[selector] {
+  color: var(--code-theme-selector);
+  display: inline;
+}
+
+.markdown-section p[tag] {
+  color: var(--code-theme-tag);
+  display: inline;
+}
+
+.markdown-section p[text] {
+  color: var(--code-theme-text);
+  display: inline;
+}
+
+.markdown-section p[var] {
+  color: var(--code-theme-variable);
+  display: inline;
+}
+
+.markdown-section pre[noke] {
+  position: relative;
+  overflow: hidden;
+  margin: var(--code-block-margin);
+  padding: 0;
+  border-radius: var(--code-block-border-radius);
+}
+
+.markdown-section div[noke] {
+  display: block;
+  overflow: auto;
+  padding: var(--code-block-padding);
+  font-family: var(--code-font-family);
+  font-size: var(--code-font-size);
+  font-weight: var(--code-font-weight);
+  letter-spacing: normal;
+  line-height: var(--code-block-line-height);
+  tab-size: var(--code-tab-size);
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  color: var(--code-theme-text);
+  background: var(--code-theme-background);
+}
+
+.markdown-section pre[noke]::after {
+  content: "noke";
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+  opacity: 0.6;
+  color: inherit;
+  font-size: var(--font-size-s);
+  line-height: 1;
+}
