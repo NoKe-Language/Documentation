@@ -160,6 +160,7 @@ Syntaxe basique pour une classe :
 <pre noke><div noke><p fun>class</p> <p kw>Ship</p>:
     <p fun>fun _init</p>():
         <p comment>// some code</p>
+        <p fun>skip</p>
 </div></pre>
 
 ### Propriétés
