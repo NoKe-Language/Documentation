@@ -1,4 +1,4 @@
-<!-- docs/_sidebar.md -->
+<!-- docs/fr/_sidebar.md -->
 
-* [Accueil](README.md)
-* [Syntaxe basique](syntaxe.md)
+* [Français](fr/home.md)
+* [English](en/home.md)
