@@ -3,3 +3,4 @@
 * [Accueil](fr/home.md)
 * [Syntaxe basique](fr/syntaxe.md)
 * [Syntaxe avancée](fr/advanced.md)
+* [Compilation](fr/compilation.md)
