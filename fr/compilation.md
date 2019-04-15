@@ -9,21 +9,25 @@ Le compilateur Nolfaris compile le NoKe haut niveau en une série de requête ba
 | **Instruction** | **Opcode** | **Arg1**   | **Arg2**  | **Arg3** | **Length** |
 | --------------- | ---------- | ---------- | --------- | -------- | ---------- |
 | add             | *0x0000*   | target     | var1      | var2     | 4          |
-| bind            | *0x0001*   | component  |           |          | 2          |
-| div             | *0x0002*   | target     | var1      | var2     | 4          |
-| exit            | *0x0003*   |            |           |          | 1          |
-| get             | *0x0004*   | property   | target    |          | 3          |
-| goto            | *0x0005*   | name       |           |          | 2          |
-| if              | *0x0006*   | var1       | var2      | goto     | 4          |
-| img             | *0x0007*   | img        | target    |          | 3          |
-| mult            | *0x0008*   | target     | var1      | var2     | 4          |
-| new             | *0x0009*   | component  | type      |          | 3          |
-| nope            | *0x000A*   |            |           |          | 1          |
-| pause           | *0x000B*   | in pause ? |           |          | 2          |
-| set             | *0x000C*   | property   | new value |          | 3          |
-| sound           | *0x000D*   | sound      | target    |          | 3          |
-| sub             | *0x000E*   | target     | var1      | var2     | 4          |
-| switch          | *0x000F*   | view       |           |          | 2          |
+| addi            | *0x0001*   | target     | var1      | value    |            |
+| bind            | *0x0002*   | component  |           |          | 2          |
+| div             | *0x0003*   | target     | var1      | var2     | 4          |
+| divi            | *0x0004*   | target     | var1      | value    |            |
+| exit            | *0x0005*   |            |           |          | 1          |
+| get             | *0x0006*   | property   | target    |          | 3          |
+| goto            | *0x0007*   | name       |           |          | 2          |
+| if              | *0x0008*   | var1       | var2      | goto     | 4          |
+| img             | *0x0009*   | img        | target    |          | 3          |
+| mult            | *0x000A*   | target     | var1      | var2     | 4          |
+| multi           | *0x000B*   | target     | var1      | value    |            |
+| new             | *0x000C*   | component  | type      |          | 3          |
+| nope            | *0x000D*   |            |           |          | 1          |
+| pause           | *0x000E*   | in pause ? |           |          | 2          |
+| set             | *0x000F*   | property   | new value |          | 3          |
+| sound           | *0x0010*   | sound      | target    |          | 3          |
+| sub             | *0x0011*   | target     | var1      | var2     | 4          |
+| subi            | *0x0012*   | target     | var1      | value    |            |
+| switch          | *0x0013*   | view       |           |          | 2          |
 
 *This list is a non exhaustive concept art.*
 
