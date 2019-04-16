@@ -5,3 +5,4 @@
 * [Syntaxe avancée](fr/advanced.md)
 * [Compilation](fr/compilation.md)
 * [Renderer](fr/renderer.md)
+* [Assembleur](fr/assembly.md)
