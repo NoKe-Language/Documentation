@@ -18,18 +18,21 @@ La liste des **types primaires** est la suivante :
 - pointer
 - string
 - bool
+- signal
+- list
 
 ### Registres spéciaux
 
 Ces registres sont réservés et ils ont un nom et un utilisation spéciale.
 
 
-| **Id** | **Nom**          | **Hex value** | **Description**                                                       |
-| ------ | ---------------- | ------------- | --------------------------------------------------------------------- |
-| `$sp`  | Stack pointer    | 0x0000        | Adresse du curseur dans la stack.                                     | 
-| `$ip`  | Instance pointer | 0x0001        | Adresse du début de l'instance actuelle dans la mémoire instancielle. |
-| `$ra`  | Return address   | 0x0002        | Adresse de retour. (utilisée dans les appels de fonction)             |
-| `$v0`  | Return register  | 0x0003        | Registre contenant la valeur de retour d'une fonction.                |
+| **Id** | **Nom**          | **Hex value** | **Description**                                                                       |
+| ------ | ---------------- | ------------- | ------------------------------------------------------------------------------------- |
+| `$sp`  | Stack pointer    | 0x0000        | Adresse du curseur dans la stack.                                                     | 
+| `$ip`  | Instance pointer | 0x0001        | Adresse du début de l'instance actuelle dans la mémoire instancielle.                 |
+| `$ra`  | Return address   | 0x0002        | Adresse de retour. (utilisée dans les appels de fonction)                             |
+| `$v0`  | Return register  | 0x0003        | Registre contenant la valeur de retour d'une fonction.                                |
+| `$rw`  | Root window      | 0x0004        | Registre contenant le signal controllant la fenêtre principale.                       |
 
 ### Autres registres
 
@@ -80,11 +83,76 @@ Voici le résumé des instructions supportées par l'assembleur NoKe :
 | **modi**        | Modulo immédiat                         | 0x1D       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
 | **mul**         | Multiplication                          | 0x1E       | **dest** : reg     | **arg1** : reg      | **arg2** : reg      |
 | **muli**        | Multiplication immédiate                | 0x1F       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
-| **smem**        | Stocker dans la mémoire instancielle    | 0x20       | **source** : reg   | **offset** : int    | **address** : reg   |
-| **sst**         | Stocker dans la stack                   | 0x21       | **source** : reg   | **offset** : int    | **address** : reg   |
-| **stop**        | Fin du programme                        | 0x22       |                    |                     |                     |
-| **sub**         | Soustraction                            | 0x23       | **dest** : reg     | **arg1** : reg      | **arg2** : reg      |
-| **subi**        | Soustraction immédiate                  | 0x24       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
+| **sbind**       | S'abonner à un event d'un signal        | 0x20       | **comp** : comp    | **prop_id** : int   | **target** : label  | 
+| **sdel**        | Supprimer un signal                     | 0x21       | **comp** : comp    |                     |                     |
+| **sget**        | Obtenir une propriété d'un signal       | 0x22       | **comp** : comp    | **prop_id** : int   |                     |
+| **slaunch**     | Lancer le signal                        | 0x23       | **comp** : comp    |                     |                     |
+| **smem**        | Stocker dans la mémoire instancielle    | 0x24       | **source** : reg   | **offset** : int    | **address** : reg   |
+| **snew**        | Créer un signal                         | 0x25       | **comp** : comp    | **comp_id** : int   |                     |
+| **ssb**         | Set une propriété bool d'un signal      | 0x26       | **comp** : comp    | **prop_id** : int   | **value** : bool    |
+| **sset**        | Set une propriété d'un signal           | 0x27       | **comp** : comp    | **prop_id** : int   | **value** : reg     |
+| **ssf**         | Set une propriété float d'un signal     | 0x28       | **comp** : comp    | **prop_id** : int   | **value** : float   |
+| **ssi**         | Set une propriété int d'un signal       | 0x29       | **comp** : comp    | **prop_id** : int   | **value** : int     |
+| **sss**         | Set une propriété string d'un signal    | 0x2A       | **comp** : comp    | **prop_id** : int   | **value** : string  |
+| **sst**         | Stocker dans la stack                   | 0x2B       | **source** : reg   | **offset** : int    | **address** : reg   |
+| **stop**        | Fin du programme                        | 0x2C       |                    |                     |                     |
+| **sub**         | Soustraction                            | 0x2D       | **dest** : reg     | **arg1** : reg      | **arg2** : reg      |
+| **subi**        | Soustraction immédiate                  | 0x2E       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
 
-### Détails sur la représentation hexadécimale
+## Signaux
 
+Un signal est une sorte d'objet contenant des paramètres à faire passer au renderer Endiver. L'utilisation typique d'un signal se fait en 3 phases :
+
+1. **Créer le signal** : l'instruction `snew` place un nouveau signal du type demandé dans le registre fourni.
+
+2. **Modifier les propriétés** : les instructions `sset`, `ssi`, `ssb`, `ssf`, `sss` permettent de modifier des propriétés du signal. Ces propriétés sont embarquées dans le signal et seront utilisées lors de son lancement. Si besoin, l'instruction `sget` permet d'obtenir une propriété d'un signal.
+
+3. **Lancer le signal** : l'instruction `slaunch` permet de lancer un signal. Le renderer va alors traiter les propriétés reçues en fonction du type du signal (voir types ci dessous).
+
+Certains signaux permettent de modifier une propriété après le lancement (exemple: changer le titre de la fenêtre principale). D'autres ne le permettent pas (exemple: impossible de changer la couleur d'un rectangle déjà dessiné).
+
+### Types de signaux
+
+#### Fenêtre
+
+- **ID** : 0
+- **Propriétés:**
+
+| **ID** | **Nom**             | **Type** |
+| ------ | ------------------- | -------- |
+| 0      | title               | string   |
+| 1      | width               | int      |
+| 2      | height              | int      |
+| 3      | closed              | label    |
+| 4      | render              | label    |
+
+#### Draw rectangle
+
+- **ID** : 1
+- **Propriétés:**
+
+| **ID** | **Nom**             | **Type** |
+| ------ | ------------------- | -------- |
+| 0      | x                   | int      |
+| 1      | y                   | int      |
+| 2      | z                   | int      |
+| 3      | width               | int      |
+| 4      | height              | int      |
+| 5      | background red      | int      |
+| 6      | background green    | int      |
+| 7      | background blue     | int      |
+| 8      | background alpha    | int      |
+| 9      | border red          | int      |
+| 10     | border green        | int      |
+| 11     | border blue         | int      |
+| 12     | border alpha        | int      |
+| 13     | border width        | int      |
+| 14     | rotation x          | int      |
+| 15     | rotation y          | int      |
+| 16     | rotation z          | int      |
+| 17     | left clicked        | label    |
+| 18     | left pressed        | label    |
+| 19     | left released       | label    |
+| 20     | right clicked       | label    |
+| 21     | right pressed       | label    |
+| 22     | right released      | label    |
