@@ -83,21 +83,32 @@ Voici le résumé des instructions supportées par l'assembleur NoKe :
 | **modi**        | Modulo immédiat                         | 0x1D       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
 | **mul**         | Multiplication                          | 0x1E       | **dest** : reg     | **arg1** : reg      | **arg2** : reg      |
 | **muli**        | Multiplication immédiate                | 0x1F       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
-| **sbind**       | S'abonner à un event d'un signal        | 0x20       | **comp** : comp    | **prop_id** : int   | **target** : label  | 
-| **sdel**        | Supprimer un signal                     | 0x21       | **comp** : comp    |                     |                     |
-| **sget**        | Obtenir une propriété d'un signal       | 0x22       | **comp** : comp    | **prop_id** : int   |                     |
-| **slaunch**     | Lancer le signal                        | 0x23       | **comp** : comp    |                     |                     |
-| **smem**        | Stocker dans la mémoire instancielle    | 0x24       | **source** : reg   | **offset** : int    | **address** : reg   |
-| **snew**        | Créer un signal                         | 0x25       | **comp** : comp    | **comp_id** : int   |                     |
-| **ssb**         | Set une propriété bool d'un signal      | 0x26       | **comp** : comp    | **prop_id** : int   | **value** : bool    |
-| **sset**        | Set une propriété d'un signal           | 0x27       | **comp** : comp    | **prop_id** : int   | **value** : reg     |
-| **ssf**         | Set une propriété float d'un signal     | 0x28       | **comp** : comp    | **prop_id** : int   | **value** : float   |
-| **ssi**         | Set une propriété int d'un signal       | 0x29       | **comp** : comp    | **prop_id** : int   | **value** : int     |
-| **sss**         | Set une propriété string d'un signal    | 0x2A       | **comp** : comp    | **prop_id** : int   | **value** : string  |
-| **sst**         | Stocker dans la stack                   | 0x2B       | **source** : reg   | **offset** : int    | **address** : reg   |
-| **stop**        | Fin du programme                        | 0x2C       |                    |                     |                     |
-| **sub**         | Soustraction                            | 0x2D       | **dest** : reg     | **arg1** : reg      | **arg2** : reg      |
-| **subi**        | Soustraction immédiate                  | 0x2E       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
+| **sbind**       | S'abonner à un event d'un signal        | 0x20       | **sig** : signal   | **prop_id** : int   | **target** : label  | 
+| **scopy**       | Copier un signal et ses propriétés      | 0x21       | **sig** : signal   | **sig** : signal    |                     |
+| **sdel**        | Supprimer un signal                     | 0x22       | **sig** : signal   |                     |                     |
+| **sget**        | Obtenir une propriété d'un signal       | 0x23       | **sig** : signal   | **prop_id** : int   |                     |
+| **slaunch**     | Lancer le signal                        | 0x24       | **sig** : signal   |                     |                     |
+| **smem**        | Stocker dans la mémoire instancielle    | 0x25       | **source** : reg   | **offset** : int    | **address** : reg   |
+| **snew**        | Créer un signal                         | 0x26       | **sig** : signal   | **comp_id** : int   |                     |
+| **ssb**         | Set une propriété bool d'un signal      | 0x27       | **sig** : signal   | **prop_id** : int   | **value** : bool    |
+| **sset**        | Set une propriété d'un signal           | 0x28       | **sig** : signal   | **prop_id** : int   | **value** : reg     |
+| **ssf**         | Set une propriété float d'un signal     | 0x29       | **sig** : signal   | **prop_id** : int   | **value** : float   |
+| **ssi**         | Set une propriété int d'un signal       | 0x2A       | **sig** : signal   | **prop_id** : int   | **value** : int     |
+| **sss**         | Set une propriété string d'un signal    | 0x2B       | **sig** : signal   | **prop_id** : int   | **value** : string  |
+| **sst**         | Stocker dans la stack                   | 0x2C       | **source** : reg   | **offset** : int    | **address** : reg   |
+| **stop**        | Fin du programme                        | 0x2D       |                    |                     |                     |
+| **sub**         | Soustraction                            | 0x2E       | **dest** : reg     | **arg1** : reg      | **arg2** : reg      |
+| **subi**        | Soustraction immédiate                  | 0x2F       | **dest** : reg     | **arg1** : reg      | **arg2** : int      |
+
+## Représentation hexadécimale
+
+Attention : Les nombres sont en **big endian** au niveau des octets, lesquels sont en **little endian** au niveau des bits. Par exemple, le nombre 127 en hexadécimal s'écrira `27 01`.
+
+Pour représenter une string, sa représentation classique sera transcrite en hexadécimal mais sera précédée de la longueur de la string en octets,sur deux octets.
+
+Pour encoder "hello world", on va donc écrire `0b 00 68 65 6c 6c 6f 20 77 6f 72 6c 64`. Les deux premiers octets (0b 00) indiquent qu'il y a 11 bytes de string, lesquels sont placés à la suite. Puisque seulement deux octets sont réservés pour la longueur de la chaîne de caractère, il y a un maximum de longueur pour celles-ci à 65536 bytes. (un caractère ascii compte pour 1, un caractère utf-8 compte pour 2). Si le besoin se présente, il y aurait moyen d'élever ce maximum en rajoutant un byte pour la longueur, mais cela impliquerait alors un fichier plus lourd.
+
+Nb: c'est bien le litéral string de l'assembleur qui est limité à 65536 bytes. Pour faire un string plus long, il suffirait à l'assembleur de le diviser en deux et faire une addition sur un registre.
 
 ## Signaux
 
