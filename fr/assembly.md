@@ -17,7 +17,6 @@ La liste des **types primaires** est la suivante :
 - float
 - pointer
 - string
-- bool
 - signal
 - list
 
@@ -73,16 +72,16 @@ Voici le résumé des instructions supportées par l'assembleur NoKe :
 | **j**           | Saut                                    | 0x12       | **target** : label |                     |                    | ok     |
 | **jal**         | Saut et lier                            | 0x30       | **target** : label |                     |                    | ok     |
 | **jr**          | Saut avec registre                      | 0x13       | **target** : reg   |                     |                    | ok     |
-| **lf**          | Charger un float dans un registre       | 0x16       | **dest** : reg     | **source** : float  |                    |        |
+| **lf**          | Charger un float dans un registre       | 0x16       | **dest** : reg     | **source** : float  |                    | ok     |
 | **li**          | Charger un int dans un registre         | 0x17       | **dest** : reg     | **source** : int    |                    | ok     |
 | **lmem**        | Charger depuis la mémoire instancielle  | 0x18       | **dest** : reg     | **offset** : int    | **address** : reg  |        |
 | **log**         | Afficher un string dans la console      | 0x19       | **content** : reg  |                     |                    | ok     |
 | **lst**         | Charger depuis la stack                 | 0x1A       | **dest** : reg     | **offset** : int    | **address** : reg  |        |
 | **lstr**        | Charger un string dans un registre      | 0x1B       | **dest** : reg     | **source** : string |                    |        |
-| **mod**         | Modulo                                  | 0x1C       | **dest** : reg     | **arg1** : reg      | **arg2** : reg     |        |
-| **modi**        | Modulo immédiat                         | 0x1D       | **dest** : reg     | **arg1** : reg      | **arg2** : int     |        |
-| **mul**         | Multiplication                          | 0x1E       | **dest** : reg     | **arg1** : reg      | **arg2** : reg     |        |
-| **muli**        | Multiplication immédiate                | 0x1F       | **dest** : reg     | **arg1** : reg      | **arg2** : int     |        |
+| **mod**         | Modulo                                  | 0x1C       | **dest** : reg     | **arg1** : reg      | **arg2** : reg     | ok     |
+| **modi**        | Modulo immédiat                         | 0x1D       | **dest** : reg     | **arg1** : reg      | **arg2** : int     | ok     |
+| **mul**         | Multiplication                          | 0x1E       | **dest** : reg     | **arg1** : reg      | **arg2** : reg     | ok     |
+| **muli**        | Multiplication immédiate                | 0x1F       | **dest** : reg     | **arg1** : reg      | **arg2** : int     | ok     |
 | **sbind**       | S'abonner à un event d'un signal        | 0x20       | **sig** : signal   | **prop_id** : int   | **target** : label |        |
 | **scopy**       | Copier un signal et ses propriétés      | 0x21       | **sig** : signal   | **sig** : signal    |                    |        |
 | **sdel**        | Supprimer un signal                     | 0x22       | **sig** : signal   |                     |                    |        |
@@ -95,10 +94,10 @@ Voici le résumé des instructions supportées par l'assembleur NoKe :
 | **ssf**         | Set une propriété float d'un signal     | 0x29       | **sig** : signal   | **prop_id** : int   | **value** : float  |        |
 | **ssi**         | Set une propriété int d'un signal       | 0x2A       | **sig** : signal   | **prop_id** : int   | **value** : int    |        |
 | **sss**         | Set une propriété string d'un signal    | 0x2B       | **sig** : signal   | **prop_id** : int   | **value** : string |        |
-| **sst**         | Stocker dans la stack                   | 0x2C       | **source** : reg   | **offset** : int    | **address** : reg  |        |
+| **sst**         | Stocker dans la stack                   | 0x2C       | **source** : reg   | **offset** : int    | **address** : reg  | ok     |
 | **stop**        | Fin du programme                        | 0x2D       |                    |                     |                    | ok     |
-| **sub**         | Soustraction                            | 0x2E       | **dest** : reg     | **arg1** : reg      | **arg2** : reg     |        |
-| **subi**        | Soustraction immédiate                  | 0x2F       | **dest** : reg     | **arg1** : reg      | **arg2** : int     |        |
+| **sub**         | Soustraction                            | 0x2E       | **dest** : reg     | **arg1** : reg      | **arg2** : reg     | ok     |
+| **subi**        | Soustraction immédiate                  | 0x2F       | **dest** : reg     | **arg1** : reg      | **arg2** : int     | ok     |
 
 ## Représentation hexadécimale
 
