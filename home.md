@@ -1,5 +1,7 @@
 # NoKe
 
-> [Voir la documentation en français](fr/home)
+NoKe is a fast, memory safe programming language.
 
-> [See the documentation in English](en/home)
+No garbage collector.
+No C.
+No Rust.
